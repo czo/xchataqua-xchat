@@ -1450,9 +1450,10 @@ traverse_proxy (int proxy_type, int print_fd, int sok, char *ip, int port, struc
 
 /* this is the child process making the connection attempt */
 
-static int
-server_child (server * serv)
+static void*
+server_child (void *args)
 {
+    server *serv = (server*)args;
 	netstore *ns_server;
 	netstore *ns_proxy = NULL;
 	netstore *ns_local;
@@ -1642,8 +1643,6 @@ xit:
 	if (real_hostname)
 		free (real_hostname);
 #endif
-
-	return 0;
 }
 
 static void
