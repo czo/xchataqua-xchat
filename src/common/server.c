@@ -766,17 +766,20 @@ auto_reconnect (server *serv, int send_quit, int err)
 	if (serv->server_session == NULL)
 		return;
 
-	list = sess_list;
-	while (list)				  /* make sure auto rejoin can work */
-	{
-		s = list->data;
-		if (s->type == SESS_CHANNEL && s->channel[0])
-		{
-			strcpy (s->waitchannel, s->channel);
-			strcpy (s->willjoinchannel, s->channel);
-		}
-		list = list->next;
-	}
+    /* skipping rejoin when autorejoin is not enabled (BNC's will like this) */
+    if (prefs.autorejoin) {
+        list = sess_list;
+        while (list)				  /* make sure auto rejoin can work */
+        {
+            s = list->data;
+            if (s->type == SESS_CHANNEL && s->channel[0])
+            {
+                strcpy (s->waitchannel, s->channel);
+                strcpy (s->willjoinchannel, s->channel);
+            }
+            list = list->next;
+        }
+    }
 
 	if (serv->connected)
 		server_disconnect (serv->server_session, send_quit, err);
