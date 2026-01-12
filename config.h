@@ -530,5 +530,3 @@
 #define glthread_once_func            libintl_once_func
 #define glthread_once_singlethreaded  libintl_once_singlethreaded
 #define glthread_once_multithreaded   libintl_once_multithreaded
-
-#define ENABLE_GROWL 0
